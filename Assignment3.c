@@ -428,22 +428,25 @@ void Delete_Contact()
 
 void Modify_Contact()
 {
-    FILE *ptr;
+    FILE *ptr,*newrec;
     int test=0;
 
     ptr = fopen("data.txt","r");
+    newrec = fopen("new.txt","w");
     
     char mobile[15];
     char about[30];
     struct Contact search;
+    struct Contact modify;
     char Name[30];
+    int n;
 
     printf("\n\n------------------------------------------");
-    printf("\n \tSearch Contact Section\n");
+    printf("\n \tModify Contact Section\n");
     printf("\tSearch  Contact  Information  Here\n");
     printf("--------------------------------------------\n");
 
-    printf("Enter the name of Contact You Want to Search \n");
+    printf("Enter the name of Contact You Want to Modify \n");
     printf("Enter the Contact Name:> ");
     scanf(" %[^\n]%*c", Name);
     while (fscanf(ptr, "%[^\n]\n%d\n", search.contact_Name, &search.num_Of_Num)!=EOF)
@@ -466,8 +469,145 @@ void Modify_Contact()
             }
             test++;
             printf("\n\n");
+            printf("\n\n");            
+            
+            printf("Are you sure you want to Modify this Contact\n");
+            printf("(Y/N) :> ");
+            char choice;
+            printf("\n");
+            choice = getchar();
+            printf("\n");
+            
+            switch (choice)
+            {
+            case 'N':
+                /* code */
+                printf("Contact Not Modified!!!\n");
+                fprintf(newrec, "%s\n%d\n", search.contact_Name, search.num_Of_Num);
+                n = search.num_Of_Num;
+                for (int i = 0; i < n; i++)
+                {
+                    fscanf(ptr, "%s %[^\n]\n", mobile, about);
+                    fprintf(newrec, "%s %s\n", mobile, about);
+                }
+                break;
+            case 'n':
+                /* code */
+                printf("Contact Not Modified!!!\n");
+                fprintf(newrec, "%s\n%d\n", search.contact_Name, search.num_Of_Num);
+                n = search.num_Of_Num;
+                for (int i = 0; i < n; i++)
+                {
+                    fscanf(ptr, "%s %[^\n]\n", mobile, about);
+                    fprintf(newrec, "%s %s\n", mobile, about);
+                }
+                test++;
+                break;
+
+            
+            
+            case 'Y':
+                /* code */
+                printf("Enter New Contact Information\n\n");
+                printf("Enter Contact Name :>  ");
+                scanf(" %[^\n]%*c", modify.contact_Name);
+                
+                printf("Enter Number of Phone Nunbers for Contact %s :> ", modify.contact_Name);
+                scanf("%d", &modify.num_Of_Num);
+
+                n = modify.num_Of_Num;
+
+                fprintf(newrec, "%s\n%d\n", modify.contact_Name, n);
+
+                modify.numbers = (struct Numbers*) malloc(n*sizeof(struct Numbers));
+
+                for(int i=0; i<n; i++)
+                {
+                    printf("\nNumber %d : ", i+1);
+                    scanf("%s", modify.numbers[i].MobileNumber);
+                    printf("Enter Some Description of Phone Number \n");
+                    printf("This maybe something like “WhatsApp Number” or “Home Number” etc.\n");
+                    getchar();
+                    printf("Enter :>");
+                    scanf(" %[^\n]%*c", modify.numbers[i].aboutNumber);
+                    fprintf(newrec, "%s %s\n", modify.numbers[i].MobileNumber, modify.numbers[i].aboutNumber);
+                }
+                
+                break;
+
+
+            case 'y':
+                /* code */
+                printf("Enter New Contact Information\n\n");
+                printf("Enter Contact Name :>  ");
+                scanf(" %[^\n]%*c", modify.contact_Name);
+                
+                printf("Enter Number of Phone Nunbers for Contact %s :> ", modify.contact_Name);
+                scanf("%d", &modify.num_Of_Num);
+
+                n = modify.num_Of_Num;
+
+                fprintf(newrec, "%s\n%d\n", modify.contact_Name, n);
+
+                modify.numbers = (struct Numbers*) malloc(n*sizeof(struct Numbers));
+
+                for(int i=0; i<n; i++)
+                {
+                    printf("\nNumber %d : ", i+1);
+                    scanf("%s", modify.numbers[i].MobileNumber);
+                    printf("Enter Some Description of Phone Number \n");
+                    printf("This maybe something like “WhatsApp Number” or “Home Number” etc.\n");
+                    getchar();
+                    printf("Enter :>");
+                    scanf(" %[^\n]%*c", modify.numbers[i].aboutNumber);
+                    fprintf(newrec, "%s %s\n", modify.numbers[i].MobileNumber, modify.numbers[i].aboutNumber);
+                }
+                break;
+            
+            default:
+                break;
+            }
+                
+        }
+
+        else
+        {
+            /* code */
+            fprintf(newrec, "%s\n%d\n", search.contact_Name, search.num_Of_Num);
+            n = search.num_Of_Num;
+            for (int i = 0; i < n; i++)
+            {
+                fscanf(ptr, "%s%[^\n]\n", mobile, about);
+                fprintf(newrec, "%s %s\n", mobile, about);
+            }
 
         }
+    }
+
+    fclose(ptr);
+    fclose(newrec);
+    remove("data.txt");
+    rename("new.txt","data.txt");
+
+    int option;
+    printf("\n\nEnter 1 to go to the main menu and 0 to exit:");
+    scanf(" %d",&option);
+    
+    if (option==1)
+    {
+        printf("\n\n");
+        Select_Option();
+    }
+    
+    else if(option==0)
+    {
+        exit(0);
+    }
+    
+    else
+    {
+        printf("\nInvalid!\a");
+        Select_Option();
     }
 }
 
