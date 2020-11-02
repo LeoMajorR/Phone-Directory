@@ -333,7 +333,6 @@ void Delete_Contact()
             printf("(Y/N) :> ");
             char choice;
             printf("\n");
-            getchar();
             choice = getchar();
             printf("\n");
             switch (choice)
@@ -356,7 +355,7 @@ void Delete_Contact()
                 n = check.num_Of_Num;
                 for (int i = 0; i < n; i++)
                 {
-                    fscanf(ptr, "%s %[^\n]\n", mobile, about);
+                    // fscanf(ptr, "%s %[^\n]\n", mobile, about);
                     fprintf(newrec, "%s %s\n", mobile, about);
                 }
                 break;
@@ -368,7 +367,7 @@ void Delete_Contact()
                 int n = check.num_Of_Num;
                 for (int i = 0; i < n; i++)
                 {
-                    fscanf(ptr, "%s %[^\n]\n", mobile, about);
+                    // fscanf(ptr, "%s %[^\n]\n", mobile, about);
                     fprintf(newrec, "%s %s\n", mobile, about);
                 }
                 break;
